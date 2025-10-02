@@ -8,15 +8,63 @@ use RealRashid\SweetAlert\Facades\Alert; //sweet alert
 use Illuminate\Support\Facades\Storage; //สำหรับเก็บไฟล์ภาพ
 use Illuminate\Pagination\Paginator; //แบ่งหน้า
 use App\Models\PetModel; //model
+use Illuminate\Support\Facades\Auth; //session
 
 class PetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
 
     public function index(){
-        Paginator::useBootstrap(); // ใช้ Bootstrap pagination
-        $PetList = PetModel::orderBy('id', 'desc')->paginate(5); //order by & pagination
-         //return response()->json(['error' => $e->getMessage()], 500); //สำหรับ debug
+        Paginator::useBootstrap();
+        $PetList = PetModel::orderBy('id', 'desc')->paginate(6);
+        //return response()->json(['error' => $e->getMessage()], 500); //สำหรับ debug
         return view('pet.list', compact('PetList'));
+    }
+
+    public function indexlist(){
+
+        Paginator::useBootstrap();
+
+        $dogs = PetModel::where('pet_type', 'Dog')
+                    ->orderBy('id','desc')
+                    ->paginate(100, ['*'], 'dogs_page');
+
+        $cats = PetModel::where('pet_type', 'Cat')
+                    ->orderBy('id','desc')
+                    ->paginate(100, ['*'], 'cats_page');
+
+        $raccoons = PetModel::where('pet_type', 'Raccoon')
+                    ->orderBy('id','desc')
+                    ->paginate(100, ['*'], 'raccoons_page');
+
+        return view('pet_page.index', compact('dogs', 'cats', 'raccoons'));
+    }
+
+    public function dogs() {
+        Paginator::useBootstrap();
+        $dogs = PetModel::where('pet_type', 'Dog')
+                ->orderBy('id','desc')
+                ->paginate(100, ['*'], 'dogs_page');
+        return view('pet_page.dogs', compact('dogs'));
+    }
+
+    public function cats() {
+        Paginator::useBootstrap();
+        $cats = PetModel::where('pet_type', 'Cat')
+                ->orderBy('id','desc')
+                ->paginate(100, ['*'], 'cats_page');
+        return view('pet_page.cats', compact('cats'));
+    }
+
+    public function raccoons() {
+        Paginator::useBootstrap();
+        $raccoons = PetModel::where('pet_type', 'Raccoon')
+                    ->orderBy('id','desc')
+                    ->paginate(100, ['*'], 'raccoons_page');
+        return view('pet_page.raccoons', compact('raccoons'));
     }
 
     public function adding() {
@@ -29,6 +77,7 @@ public function create(Request $request)
     $messages = [
         'pet_name.required' => 'Please enter your pet name',
         'pet_name.min' => 'Minimum :min letters',
+        'pet_name.unique' => 'This name already entered, please enter again',
 
         'pet_detail.required' => 'Please enter your pet detail',
         'pet_detail.min' => 'Minimum :min letters',
@@ -42,7 +91,7 @@ public function create(Request $request)
 
     //rule ตั้งขึ้นว่าจะเช็คอะไรบ้าง
     $validator = Validator::make($request->all(), [
-        'pet_name' => 'required|min:4',
+        'pet_name' => 'required|min:4|unique:tbl_pets',
         'pet_detail' => 'required|min:10',
         'pet_type' => ['required', Rule::in(['dog', 'cat', 'raccoon'])],
         'pet_img' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',

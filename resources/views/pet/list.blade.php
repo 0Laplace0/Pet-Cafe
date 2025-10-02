@@ -10,13 +10,15 @@
 @endsection
 
 @section('content')
-    <h3> ::Pet Managements ::
-        <a href="/pet/adding" class="btn btn-primary btn-sm"> Add Pet </a>
-    </h3>
+
+<div class="container mt-4">
+    <h1>Pet Managements
+        <a href="/pet/adding" class="btn btn-brown btn-sm"> Add Pet </a>
+    </h1>
 
     <table class="table table-bordered table-striped table-hover">
-        <thead>
-            <tr class="table-info">
+        <thead class="thead-brown">
+            <tr>
                 <th width="5%" class="text-center">No.</th>
                 <th width="5%">Pic</th>
                 <th width="35%">Product Name & Type </th>
@@ -63,9 +65,22 @@
         </tbody>
     </table>
 
-    <div>
-        {{ $PetList->links() }}
+    <div class="row align-items-center mt-3">
+
+        <div class="col-12 col-md-3 text-muted small text-md-start text-center mb-2 mb-md-0">
+            Showing {{ $PetList->firstItem() }} to {{ $PetList->lastItem() }} of {{ $PetList->total() }} results
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-center">
+            {{ $PetList->links() }}
+            </div>
+        </div>
+
+        <div class="col-md-3 d-none d-md-block"></div>
     </div>
+    
+ </div>
 @endsection
 
 @section('footer')

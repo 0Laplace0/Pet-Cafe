@@ -10,13 +10,14 @@
 @endsection
 
 @section('content')
-    <h3> ::Food Managements ::
-        <a href="/food/adding" class="btn btn-primary btn-sm"> Add Food </a>
-    </h3>
+<div class="container mt-4">
+    <h1>Food Managements
+        <a href="/food/adding" class="btn btn-brown btn-sm"> Add Food </a>
+    </h1>
 
     <table class="table table-bordered table-striped table-hover">
-        <thead>
-            <tr class="table-info">
+        <thead class="thead-brown">
+            <tr>
                 <th width="5%" class="text-center">No.</th>
                 <th width="5%">Pic</th>
                 <th width="35%">Food Name & Type </th>
@@ -65,9 +66,22 @@
         </tbody>
     </table>
 
-    <div>
-        {{ $FoodList->links() }}
+    <div class="row align-items-center mt-3">
+
+        <div class="col-12 col-md-3 text-muted small text-md-start text-center mb-2 mb-md-0">
+            Showing {{ $FoodList->firstItem() }} to {{ $FoodList->lastItem() }} of {{ $FoodList->total() }} results
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="d-flex justify-content-center">
+            {{ $FoodList->links() }}
+            </div>
+        </div>
+
+        <div class="col-md-3 d-none d-md-block"></div>
     </div>
+
+</div>
 @endsection
 
 @section('footer')
@@ -78,9 +92,6 @@
 
 @section('js_before')
 @endsection
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
