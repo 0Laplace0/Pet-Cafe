@@ -222,7 +222,7 @@ class FoodController extends Controller
             $food = FoodModel::find($id); //คิวรี่เช็คว่ามีไอดีนี้อยู่ในตารางหรือไม่
 
             if (!$food) {   //ถ้าไม่มี
-                Alert::error('Pet not found.');
+                Alert::error('Food not found.');
                 return redirect('food');
             }
 
