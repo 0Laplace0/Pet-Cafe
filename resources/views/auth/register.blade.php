@@ -26,7 +26,7 @@
 
             <button type="button"
                     class="btn btn-sm btn-danger rounded-circle position-absolute"
-                    style="width:36px;height:36px; top:-70px; right:30px;"
+                    style="width:36px;height:36px; top:-40px; right:30px;"
                     onclick="location.href='/login'">
             <i class="fa-solid fa-xmark"></i>
             </button>

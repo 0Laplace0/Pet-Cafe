@@ -48,8 +48,6 @@
 
   @include('layouts.navbar')
 
-  @include('layouts.banner')
-
   <div class="container mt-2">
     <div class="row">
         @yield('showPet')
